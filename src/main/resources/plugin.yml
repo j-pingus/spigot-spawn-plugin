@@ -1,0 +1,15 @@
+name: jpingus-spawn
+version: 1.0-SNAPSHOT
+author: jPingus
+main: lu.jpingus.minecraft.spawn.MyPlugin
+api-version: 1.16
+commands:
+  spawn:
+    description: "return to spawn, you must be a player to execute this command"
+    usage: "Usage /spawn"
+    permission: jpingus.everybody
+
+permissions:
+  jpingus.everybody:
+    description: "everybody"
+    default: true
