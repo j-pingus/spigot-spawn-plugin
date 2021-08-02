@@ -1,0 +1,1 @@
+# spigot-spawn-plugin
