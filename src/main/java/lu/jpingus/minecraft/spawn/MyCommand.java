@@ -17,10 +17,10 @@ public class MyCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             // Here we need to give items to our player
             player.teleport(worldSpawn);
-            System.out.println(player.getName() + " teleported to world spawn");
+            player.sendMessage("You just got spawned...");
             return true;
         }
-        System.err.println("You are not a player");
+        commandSender.sendMessage("You are not a player");
         return false;
     }
 

@@ -6,7 +6,7 @@ api-version: 1.16
 commands:
   spawn:
     description: "return to spawn, you must be a player to execute this command"
-    usage: "Usage /spawn"
+    usage: "Usage: /<command>"
     permission: jpingus.everybody
 
 permissions:
