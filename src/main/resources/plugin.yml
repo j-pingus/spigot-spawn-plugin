@@ -5,11 +5,11 @@ main: lu.jpingus.minecraft.spawn.JpingusSpawnPlugin
 api-version: 1.16
 commands:
   spawn:
-    description: "return to spawn, you must be a player to execute this command"
+    description: "return to world spawn"
     usage: "Usage: /<command>"
     permission: jpingus.everybody
   bed:
-    description: "return to your bed, you must be a player to execute this command"
+    description: "return to your bed"
     usage: "Usage: /<command>"
     permission: jpingus.everybody
 
