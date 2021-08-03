@@ -3,10 +3,7 @@ package lu.jpingus.minecraft.spawn;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-public class MyPlugin extends JavaPlugin {
+public class JpingusSpawnPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
@@ -17,7 +14,8 @@ public class MyPlugin extends JavaPlugin {
     public void onEnable() {
         Location worldSpawn = getServer().getWorld("world").getSpawnLocation();
 
-        this.getCommand("spawn").setExecutor(new MyCommand(worldSpawn));
+        this.getCommand("spawn").setExecutor(new SpawnCommand(worldSpawn));
+        this.getCommand("bed").setExecutor(new BedCommand());
         System.out.println("jPingus plungin enabled");
     }
 }

@@ -6,18 +6,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class MyCommand implements CommandExecutor {
-    private final Location worldSpawn;
-    public MyCommand(Location worldSpawn) {
-        this.worldSpawn=worldSpawn;
-    }
+public class BedCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             // Here we need to give items to our player
-            player.teleport(worldSpawn);
-            player.sendMessage("You just got spawned...");
+            player.teleport(player.getBedSpawnLocation());
+            player.sendMessage("You just got bedded...");
             return true;
         }
         commandSender.sendMessage("You are not a player");
