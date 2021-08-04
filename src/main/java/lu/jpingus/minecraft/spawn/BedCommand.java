@@ -1,5 +1,6 @@
 package lu.jpingus.minecraft.spawn;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,8 +13,15 @@ public class BedCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             // Here we need to give items to our player
-            player.teleport(player.getBedSpawnLocation());
-            player.sendMessage("You just got bedded...");
+            Location bedLocation = player.getBedSpawnLocation();
+            if (bedLocation != null) {
+                player.teleport(bedLocation);
+                player.sendMessage("You just got bedded...");
+            } else {
+                player.sendMessage("You know you have " +
+                        ChatColor.RED + "no bed" +
+                        ChatColor.RESET + " don't you?");
+            }
             return true;
         }
         commandSender.sendMessage("You are not a player");
