@@ -16,7 +16,11 @@ public class JpingusSpawnPlugin extends JavaPlugin {
     public void onEnable() {
         Location worldSpawn = getServer().getWorld("world").getSpawnLocation();
         this.getServer().getPluginManager().registerEvents(new JpingusEventListener(), this);
-        BaseCommand command = new BaseCommand();
+        config.addDefault("maxBases", -1);
+        config.options().copyDefaults(true);
+        saveConfig();
+        int maxBases = config.getInt("maxBases");
+        BaseCommand command = new BaseCommand(maxBases);
         this.getCommand("spawn").setExecutor(new SpawnCommand(worldSpawn));
         this.getCommand("bed").setExecutor(new BedCommand());
         this.getCommand("base").setExecutor(command);
@@ -26,13 +30,5 @@ public class JpingusSpawnPlugin extends JavaPlugin {
         this.getCommand("base-del").setExecutor(command);
         this.getCommand("base-del").setTabCompleter(command);
         System.out.println("jPingus plungin enabled");
-        config.addDefault("maxBases", -1);
-        config.options().copyDefaults(true);
-        saveConfig();
-        int maxBases = config.getInt("maxBases");
-        System.out.println("Maxbase : " +
-                (maxBases == -1
-                        ? "Ubounded"
-                        : "" + maxBases));
     }
 }
