@@ -12,6 +12,7 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
 
     @Override
     public boolean onPlayerCommand(Player player, Command command, String label, String[] args) {
+
         return false;
     }
 

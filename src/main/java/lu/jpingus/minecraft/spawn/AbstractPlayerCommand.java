@@ -10,11 +10,11 @@ public abstract class AbstractPlayerCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            return onPlayerCommand(player,command, label,args);
+            return onPlayerCommand(player, command, label, args);
         }
         commandSender.sendMessage("You are not a player");
         return false;
     }
 
-    public abstract boolean onPlayerCommand(Player player, Command command, String label, String[] args) ;
+    public abstract boolean onPlayerCommand(Player player, Command command, String label, String[] args);
 }
