@@ -61,8 +61,14 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
         playerBases = bases.get(playerId);
         switch (commandName) {
             case BASE:
+            case BASE_DELETE:
                 if (playerBases.containsKey(baseName)) {
-                    player.teleport(playerBases.get(baseName));
+                    if(commandName==BaseCommandName.BASE) {
+                        player.teleport(playerBases.get(baseName));
+                    }else{
+                        playerBases.remove(baseName);
+                    }
+                    return true;
                 } else {
                     player.sendMessage("Don't know where " + baseName + " is... did you save it?");
                 }
@@ -77,8 +83,6 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
                     player.sendMessage("You cas save maximum " + maxBases + " bases");
                 }
                 return true;
-            case BASE_DELETE:
-                break;
         }
         return false;
     }
