@@ -6,11 +6,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 enum BaseCommandName {
@@ -53,19 +54,14 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
         if (!acceptableName.matcher(baseName.toLowerCase()).matches()) {
             player.sendMessage(baseName + " is too complex, or too long.  Only max 15 characters (a-z and 0-9) ");
         }
-        String playerId = player.getUniqueId().toString();
-        Map<String, Location> playerBases;
-        if (!bases.containsKey(playerId)) {
-            bases.put(playerId, new HashMap<>());
-        }
-        playerBases = bases.get(playerId);
+        Map<String, Location> playerBases = getPlayerBases(player);
         switch (commandName) {
             case BASE:
             case BASE_DELETE:
                 if (playerBases.containsKey(baseName)) {
-                    if(commandName==BaseCommandName.BASE) {
+                    if (commandName == BaseCommandName.BASE) {
                         player.teleport(playerBases.get(baseName));
-                    }else{
+                    } else {
                         playerBases.remove(baseName);
                     }
                     return true;
@@ -87,8 +83,19 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
         return false;
     }
 
+    Map<String, Location> getPlayerBases(Player player) {
+        String playerId = player.getUniqueId().toString();
+        if (!bases.containsKey(playerId)) {
+            bases.put(playerId, new HashMap<>());
+        }
+        return bases.get(playerId);
+    }
+
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        return Arrays.asList("Hello", "world");
+        Player player = getPlayer(sender);
+        if (player == null) return Collections.emptyList();
+        Map<String, Location> playerBases = getPlayerBases(player);
+        return playerBases.keySet().stream().collect(Collectors.toList());
     }
 }

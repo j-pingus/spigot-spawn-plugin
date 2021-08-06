@@ -6,13 +6,20 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractPlayerCommand implements CommandExecutor {
-    @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+    Player getPlayer(CommandSender commandSender) {
         if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
-            return onPlayerCommand(player, command, label, args);
+            return (Player) commandSender;
         }
         commandSender.sendMessage("You are not a player");
+        return null;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
+        Player player = getPlayer(commandSender);
+        if (player != null) {
+            return onPlayerCommand(player, command, label, args);
+        }
         return false;
     }
 
