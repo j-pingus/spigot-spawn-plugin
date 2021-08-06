@@ -21,8 +21,8 @@ public class JpingusSpawnPlugin extends JavaPlugin {
         this.getCommand("bed").setExecutor(new BedCommand());
         this.getCommand("base").setExecutor(command);
         this.getCommand("base").setTabCompleter(command);
-        this.getCommand("base-set").setExecutor(command);
-        this.getCommand("base-set").setTabCompleter(command);
+        this.getCommand("base-save").setExecutor(command);
+        this.getCommand("base-save").setTabCompleter(command);
         this.getCommand("base-del").setExecutor(command);
         this.getCommand("base-del").setTabCompleter(command);
         System.out.println("jPingus plungin enabled");

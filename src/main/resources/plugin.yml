@@ -12,6 +12,18 @@ commands:
     description: "return to your bed"
     usage: "Usage: /<command>"
     permission: jpingus.everybody
+  base:
+    description: "go to a saved base (see base-save)"
+    usage: "Usage: /<command> <basename>"
+    permission: jpingus.everybody
+  base-save:
+    description: "save a base"
+    usage: "Usage: /<command> <basename>"
+    permission: jpingus.everybody
+  base-del:
+    description: "remove a saved base (see base-save)"
+    usage: "Usage: /<command> <basename>"
+    permission: jpingus.everybody
 
 permissions:
   jpingus.everybody:

@@ -15,9 +15,11 @@ public class JpingusEventListener implements Listener {
                 + " in the jPingus Cellar",
                 "Have you tried " +
                         ChatColor.BOLD + ChatColor.GOLD + "/bed" +
-                        ChatColor.RESET + " and " +
+                        ChatColor.RESET + ", " +
                         ChatColor.BOLD + ChatColor.GOLD + "/spawn" +
-                        ChatColor.RESET + " ?"
+                        ChatColor.RESET + " and " +
+                        ChatColor.BOLD + ChatColor.GOLD + "/base..." +
+                        ChatColor.RESET + " commands ?"
         });
     }
 }
