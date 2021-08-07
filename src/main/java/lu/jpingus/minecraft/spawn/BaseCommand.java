@@ -4,7 +4,10 @@ import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.configuration.MemorySection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,19 +17,19 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-enum BaseCommandName {
+enum BaseCommandType {
     BASE("base"),
     BASE_DELETE("base-del"),
     BASE_SAVE("base-save");
 
     String commandName;
 
-    BaseCommandName(String commandName) {
+    BaseCommandType(String commandName) {
         this.commandName = commandName;
     }
 
-    static BaseCommandName resolveCommandName(String name) {
-        return Stream.of(BaseCommandName.values())
+    static BaseCommandType resolveCommandName(String name) {
+        return Stream.of(BaseCommandType.values())
                 .filter(command -> command.commandName.equals(name))
                 .findFirst()
                 .orElseThrow(() -> new Error(name + " is not a supported command"));
@@ -35,10 +38,17 @@ enum BaseCommandName {
 
 public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
     private final int maxBases;
+    private final JavaPlugin plugin;
     Pattern acceptableName = Pattern.compile("[a-z0-9]{1,15}");
     Map<String, Map<String, Location>> bases = new HashMap<>();
 
-    public BaseCommand(int maxBases) {
+    public BaseCommand(JavaPlugin plugin) {
+        this.plugin = plugin;
+        FileConfiguration config = plugin.getConfig();
+        config.options().copyDefaults(true);
+        config.addDefault("maxBases", -1);
+        plugin.saveConfig();
+        int maxBases = config.getInt("maxBases");
         this.maxBases = maxBases;
         System.out.println("Maxbase : " +
                 (maxBases == -1
@@ -46,9 +56,49 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
                         : "" + maxBases));
     }
 
+    void saveConfig(Player player, String base, Location location) {
+        String playerId = player.getUniqueId().toString();
+        String world = location.getWorld().getName();
+        Double x = location.getX();
+        Double y = location.getY();
+        Double z = location.getZ();
+        FileConfiguration config = plugin.getConfig();
+        String prefix = "base." + playerId + "." + base + ".";
+        config.set(prefix + "x", x);
+        config.set(prefix + "y", y);
+        config.set(prefix + "z", z);
+        config.set(prefix + "world", world);
+        plugin.saveConfig();
+    }
+
+    void removeConfig(Player player, String base) {
+        String playerId = player.getUniqueId().toString();
+        FileConfiguration config = plugin.getConfig();
+        String prefix = "base." + playerId + "." + base;
+        config.set(prefix, null);
+        plugin.saveConfig();
+    }
+
+    Map<String, Location> loadConfig(String playerId) {
+        FileConfiguration config = plugin.getConfig();
+        Object o = config.get("base." + playerId);
+        if (o == null) return new HashMap<>();
+        MemorySection section = (MemorySection) o;
+        Map<String, Location> playerConfig = new HashMap<>();
+        section.getKeys(false).forEach(key -> {
+            String prefix = "base." + playerId + "." + key + ".";
+            String world = config.getString(prefix + "world");
+            Double x = config.getDouble(prefix + "x");
+            Double y = config.getDouble(prefix + "y");
+            Double z = config.getDouble(prefix + "z");
+            playerConfig.put(key, new Location(plugin.getServer().getWorld(world), x, y, z));
+        });
+        return playerConfig;
+    }
+
     @Override
     public boolean onPlayerCommand(Player player, Command command, String label, String[] args) {
-        BaseCommandName commandName = BaseCommandName.resolveCommandName(command.getName());
+        BaseCommandType commandName = BaseCommandType.resolveCommandName(command.getName());
         if (args.length != 1) return false;
         String baseName = args[0].toLowerCase();
         if (!acceptableName.matcher(baseName.toLowerCase()).matches()) {
@@ -59,10 +109,11 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
             case BASE:
             case BASE_DELETE:
                 if (playerBases.containsKey(baseName)) {
-                    if (commandName == BaseCommandName.BASE) {
+                    if (commandName == BaseCommandType.BASE) {
                         player.teleport(playerBases.get(baseName));
                     } else {
                         playerBases.remove(baseName);
+                        removeConfig(player, baseName);
                     }
                     return true;
                 } else {
@@ -74,6 +125,7 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
                 Location current = player.getLocation();
                 if (playerBases.containsKey(baseName) || playerBases.size() <= maxBases || maxBases == -1) {
                     playerBases.put(baseName, current);
+                    saveConfig(player, baseName, current);
                     return true;
                 } else {
                     player.sendMessage("You cas save maximum " + maxBases + " bases");
@@ -86,7 +138,7 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
     Map<String, Location> getPlayerBases(Player player) {
         String playerId = player.getUniqueId().toString();
         if (!bases.containsKey(playerId)) {
-            bases.put(playerId, new HashMap<>());
+            bases.put(playerId, loadConfig(playerId));
         }
         return bases.get(playerId);
     }

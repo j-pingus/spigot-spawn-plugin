@@ -16,11 +16,7 @@ public class JpingusSpawnPlugin extends JavaPlugin {
     public void onEnable() {
         Location worldSpawn = getServer().getWorld("world").getSpawnLocation();
         this.getServer().getPluginManager().registerEvents(new JpingusEventListener(), this);
-        config.addDefault("maxBases", -1);
-        config.options().copyDefaults(true);
-        saveConfig();
-        int maxBases = config.getInt("maxBases");
-        BaseCommand command = new BaseCommand(maxBases);
+        BaseCommand command = new BaseCommand(this);
         this.getCommand("spawn").setExecutor(new SpawnCommand(worldSpawn));
         this.getCommand("bed").setExecutor(new BedCommand());
         this.getCommand("base").setExecutor(command);
