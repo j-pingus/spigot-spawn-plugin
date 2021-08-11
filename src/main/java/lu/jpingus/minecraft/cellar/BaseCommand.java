@@ -1,4 +1,4 @@
-package lu.jpingus.minecraft.spawn;
+package lu.jpingus.minecraft.cellar;
 
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -9,10 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -88,9 +85,9 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
         section.getKeys(false).forEach(key -> {
             String prefix = "base." + playerId + "." + key + ".";
             String world = config.getString(prefix + "world");
-            Double x = config.getDouble(prefix + "x");
-            Double y = config.getDouble(prefix + "y");
-            Double z = config.getDouble(prefix + "z");
+            double x = config.getDouble(prefix + "x");
+            double y = config.getDouble(prefix + "y");
+            double z = config.getDouble(prefix + "z");
             playerConfig.put(key, new Location(plugin.getServer().getWorld(world), x, y, z));
         });
         return playerConfig;
@@ -148,6 +145,6 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
         Player player = getPlayer(sender);
         if (player == null) return Collections.emptyList();
         Map<String, Location> playerBases = getPlayerBases(player);
-        return playerBases.keySet().stream().collect(Collectors.toList());
+        return new ArrayList<>(playerBases.keySet());
     }
 }

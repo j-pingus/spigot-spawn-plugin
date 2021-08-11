@@ -1,10 +1,10 @@
-package lu.jpingus.minecraft.spawn;
+package lu.jpingus.minecraft.cellar;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class JpingusSpawnPlugin extends JavaPlugin {
+public class JpingusCellarPlugin extends JavaPlugin {
     FileConfiguration config = getConfig();
 
     @Override
@@ -15,7 +15,7 @@ public class JpingusSpawnPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         Location worldSpawn = getServer().getWorld("world").getSpawnLocation();
-        this.getServer().getPluginManager().registerEvents(new JpingusEventListener(), this);
+        this.getServer().getPluginManager().registerEvents(new JpingusGreetPlayer(this), this);
         BaseCommand command = new BaseCommand(this);
         this.getCommand("spawn").setExecutor(new SpawnCommand(worldSpawn));
         this.getCommand("bed").setExecutor(new BedCommand());

@@ -1,4 +1,4 @@
-package lu.jpingus.minecraft.spawn;
+package lu.jpingus.minecraft.cellar;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

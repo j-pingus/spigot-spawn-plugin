@@ -1,7 +1,7 @@
 name: jpingus-spawn
 version: 1.0-SNAPSHOT
 author: jPingus
-main: lu.jpingus.minecraft.spawn.JpingusSpawnPlugin
+main: lu.jpingus.minecraft.cellar.JpingusCellarPlugin
 api-version: 1.16
 commands:
   spawn:
