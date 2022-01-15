@@ -125,7 +125,7 @@ public class BaseCommand extends AbstractPlayerCommand implements TabCompleter {
                     saveConfig(player, baseName, current);
                     return true;
                 } else {
-                    player.sendMessage("You cas save maximum " + maxBases + " bases");
+                    player.sendMessage("You can save maximum " + maxBases + " bases");
                 }
                 return true;
         }
