@@ -2,7 +2,7 @@ name: jpingus-spawn
 version: 1.0-SNAPSHOT
 author: jPingus
 main: lu.jpingus.minecraft.cellar.JpingusCellarPlugin
-api-version: 1.16
+api-version: 1.19
 commands:
   spawn:
     description: "return to world spawn"
