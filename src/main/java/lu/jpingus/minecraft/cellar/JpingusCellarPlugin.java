@@ -16,15 +16,20 @@ public class JpingusCellarPlugin extends JavaPlugin {
     public void onEnable() {
         Location worldSpawn = getServer().getWorld("world").getSpawnLocation();
         this.getServer().getPluginManager().registerEvents(new JpingusGreetPlayer(this), this);
-        BaseCommand command = new BaseCommand(this);
+        CreatureSpawnListener listener = new CreatureSpawnListener();
+        this.getServer().getPluginManager().registerEvents(listener, this);
+        BaseCommand baseCommand = new BaseCommand(this);
         this.getCommand("spawn").setExecutor(new SpawnCommand(worldSpawn));
         this.getCommand("bed").setExecutor(new BedCommand());
-        this.getCommand("base").setExecutor(command);
-        this.getCommand("base").setTabCompleter(command);
-        this.getCommand("base-save").setExecutor(command);
-        this.getCommand("base-save").setTabCompleter(command);
-        this.getCommand("base-del").setExecutor(command);
-        this.getCommand("base-del").setTabCompleter(command);
+        this.getCommand("base").setExecutor(baseCommand);
+        this.getCommand("base").setTabCompleter(baseCommand);
+        this.getCommand("base-save").setExecutor(baseCommand);
+        this.getCommand("base-save").setTabCompleter(baseCommand);
+        this.getCommand("base-del").setExecutor(baseCommand);
+        this.getCommand("base-del").setTabCompleter(baseCommand);
+        MonitorCreatureSpawnCommand monitor = new MonitorCreatureSpawnCommand(listener);
+        this.getCommand("monitor-spawn").setExecutor(monitor);
+        this.getCommand("monitor-spawn").setTabCompleter(monitor);
         System.out.println("jPingus plungin enabled");
     }
 }

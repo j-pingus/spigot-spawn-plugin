@@ -24,6 +24,10 @@ commands:
     description: "remove a saved base (see base-save)"
     usage: "Usage: /<command> <basename>"
     permission: jpingus.everybody
+  monitor-spawn:
+    description: "monitor (on) or stop monitoring (off) creature spawn"
+    usage: "Usage: /<command> <creature> <on|off>"
+    permission: jpingus.everybody
 
 permissions:
   jpingus.everybody:
