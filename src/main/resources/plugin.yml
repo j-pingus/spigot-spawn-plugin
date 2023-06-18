@@ -1,5 +1,5 @@
 name: jpingus-spawn
-version: 1.0-SNAPSHOT
+version: 2.3
 author: jPingus
 main: lu.jpingus.minecraft.cellar.JpingusCellarPlugin
 api-version: 1.19
@@ -23,6 +23,10 @@ commands:
   base-del:
     description: "remove a saved base (see base-save)"
     usage: "Usage: /<command> <basename>"
+    permission: jpingus.everybody
+  monitor-spawn:
+    description: "monitor (on) or stop monitoring (off) creature spawn"
+    usage: "Usage: /<command> <creature> <on|off>"
     permission: jpingus.everybody
 
 permissions:
